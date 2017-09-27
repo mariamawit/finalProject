@@ -7,10 +7,12 @@ var bodyParser = require('body-parser');
 var validator = require('express-validator');
 var lessMiddleware = require('less-middleware');
 var mongo = require('mongoskin');
+var cors = require('cors');
 
 var index = require('./routes/index');
 var getdata = require('./routes/getdata');
 var booking = require('./routes/booking');
+var addroom = require('./routes/add-room');
 var mongoose = require('mongoose');
 
 
@@ -31,10 +33,19 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(lessMiddleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(function(req, res, next){
+  res.header("Access-control-Allow-Origin", "*");
+  res.header('Access-control-allow-methods', 'GET, PUT, POST, DELETE, PAATCH, OPTIONS');
+  res.header("Access-control-Allow-Headers", "Origin, x-Requested-with, Content-Type, Accept, Authorization, Content-Length");
+  next();
+})
+app.use(cors())
+
 
 //app.use('/', index);
 app.use('/getdata', getdata);
 app.use('/booking', booking);
+app.use('/add-room', addroom);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

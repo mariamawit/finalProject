@@ -27,14 +27,14 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false });
 router.post('/', urlencodedParser, 
 // validate form
 function(req, res, next) {
-  req.checkBody('username', 'required field').notEmpty();
+  req.checkBody('displayName', 'required field').notEmpty();
   req.checkBody('email', 'required field').notEmpty();
 
   
   const err = req.validationErrors(true );    
   if(err){
     //req.session.csrfToken = req.csrfToken();
-    res.render('booking', {result: "null", error:"All input fields are Required!" });
+    res.render('login', {result: "null", error:"All input fields are Required!" });
   }
   else{  
     return next();
@@ -44,7 +44,7 @@ function(req, res, next) {
 // save to db and redirect
 function(req, res) {  
 
-    var myobj = { username: req.body.username, email: req.body.email };
+    var myobj = { displayName: req.body.displayName, email: req.body.email };
     var newUserInfo = new UserInfo(myobj);
       
    

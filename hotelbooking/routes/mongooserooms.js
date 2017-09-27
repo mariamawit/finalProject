@@ -13,8 +13,8 @@ var CommentSchema = new mongoose.Schema({
     // available: Boolean,
     // price: Number
 
-  Type: String,
-  Price:  Number,
+    type: String,
+  price:  String,
   imageUrl:  String
 //   post: { type: mongoose.Schema.Types.ObjectId, ref: 'Post' }
 });
@@ -77,6 +77,6 @@ CommentSchema.statics.findBytype = function (type, cb) {
 
 
 
-var User = mongoose.model('bookedrooms', CommentSchema);
+var Rooms = mongoose.model('rooms', CommentSchema);
 
-module.exports = User;
+module.exports = Rooms;
