@@ -5,24 +5,14 @@ mongoose.Promise = Promise;
 
 mongoose.connect("mongodb://root:123456@ds149844.mlab.com:49844/hotelbooking", {useMongoClient: true});
 
-var CommentSchema = new mongoose.Schema({
-   
-     // description: String,
-    // //image: String,
-    // roomtype: String,
-    // available: Boolean,
-    // price: Number
+var UserSchema = new mongoose.Schema({
 
-  Type: String,
-  Price:  Number,
-  imageUrl:  String
-//   post: { type: mongoose.Schema.Types.ObjectId, ref: 'Post' }
+       username: String,
+       email: String
+        
 });
 
-
-
-
-CommentSchema.statics.get = function(uid = null){
+UserSchema.statics.get = function(uid = null){
     
     return new Promise((res, rej) => {
         if (uid === null) {
@@ -41,7 +31,7 @@ CommentSchema.statics.get = function(uid = null){
     })
 }
 
-CommentSchema.methods.add = function () { 
+UserSchema.methods.add = function () { 
     // console.log('1');   
     // console.log(this);
     return new Promise((resolve, reject) => {
@@ -68,15 +58,8 @@ CommentSchema.methods.add = function () {
     })
 }
 
-CommentSchema.statics.findBytype = function (type, cb) {
-    this.find({ 
-        roomtype: type, available: false
-    }, cb);
-}
 
 
+var UserInfo = mongoose.model('user', UserSchema);
 
-
-var User = mongoose.model('bookedrooms', CommentSchema);
-
-module.exports = User;
+module.exports = UserInfo;

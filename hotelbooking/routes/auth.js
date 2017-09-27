@@ -27,9 +27,9 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false });
 router.post('/', urlencodedParser, 
 // validate form
 function(req, res, next) {
-  req.checkBody('type', 'required field').notEmpty();
-  req.checkBody('price', 'required field').notEmpty();
-  req.checkBody('imageUrl', 'required field').notEmpty(); 
+  req.checkBody('username', 'required field').notEmpty();
+  req.checkBody('email', 'required field').notEmpty();
+
   
   const err = req.validationErrors(true );    
   if(err){
@@ -37,7 +37,6 @@ function(req, res, next) {
     res.render('booking', {result: "null", error:"All input fields are Required!" });
   }
   else{  
-
     return next();
   }
 
@@ -45,27 +44,10 @@ function(req, res, next) {
 // save to db and redirect
 function(req, res) {  
 
-    var myobj = { type: req.body.type, price: req.body.price, imageUrl: req.body.imageUrl };
-    var newUser = new User(myobj);
+    var myobj = { username: req.body.username, email: req.body.email };
+    var newUserInfo = new UserInfo(myobj);
       
    
-    newUser.add().then(() => {     
-      // var token = jwt.sign({ id: newUser._id }, "my secret", {        
-      //   expiresIn: 86400 // expires in 24 hours        
-      // });
-        
-      // res.status(200).send({ auth: true, token: token });
-
-      res.json({
-        status: 1,
-        userData: newUser       
-      });     
-
-    }); 
-
-
-    //second add
-    var newUserInfo = new UserInfo(myobj);
     newUserInfo.add().then(() => {     
       var token = jwt.sign({ id: newUser._id }, "my secret", {        
         expiresIn: 86400 // expires in 24 hours        
@@ -78,7 +60,7 @@ function(req, res) {
         userData: newUser       
       });     
 
-    })  
+    }); 
 
    });  
 
