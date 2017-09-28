@@ -26,23 +26,7 @@ var router = express.Router();
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 router.post('/', urlencodedParser, 
-// validate form
-// function(req, res, next) {
-//   req.checkBody('userid', 'required field').notEmpty();
-//   req.checkBody('roomid', 'required field').notEmpty();
-//   req.checkBody('datein', 'required field').notEmpty(); 
-//   req.checkBody('dateout', 'required field').notEmpty(); 
-  
-//   const err = req.validationErrors(true );    
-//   if(err){
-//     //req.session.csrfToken = req.csrfToken();
-//     res.json({result: "null", error:"All input fields are Required!" });
-//   }
-//   else{  
-//     return next();
-//   }
 
-// },
 // save to db and redirect
 function(req, res) {  
     var obj = JSON.parse(req.body.data);
@@ -57,11 +41,12 @@ function(req, res) {
     myobj.checkRoomAvailable().then(
       (data) =>{
         if(data.available){
-          res.json({available: true});
+          //res.json({available: true});
           myobj.add().then(() => {             
                   res.json({
                     status: 1,
-                    myobj: newUser       
+                    userData: newRoom  
+                   // myobj: newUser       
                   });     
             
                 }); 

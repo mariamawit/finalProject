@@ -26,22 +26,7 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 router.post('/', urlencodedParser, 
 //validate form
-// function(req, res, next) {
-//   req.checkBody('type', 'required field').notEmpty();
-//   req.checkBody('price', 'required field').notEmpty();
-//   req.checkBody('imageUrl', 'required field').notEmpty(); 
-  
-//   const err = req.validationErrors(true );    
-//   if(err){
-//     //req.session.csrfToken = req.csrfToken();
-//     res.render('booking', {result: "null", error:"All input fields are Required!" });
-//   }
-//   else{  
 
-//     return next();
-//   }
-
-// },
 // save to db and redirect
 function(req, res) {  
     var obj = JSON.parse(req.body.data);

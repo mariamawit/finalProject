@@ -26,8 +26,8 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false });
 router.post('/', urlencodedParser, 
 // validate form
 function(req, res, next) {
-  req.checkBody('displayName', 'required field').notEmpty();
-  req.checkBody('email', 'required field').notEmpty();
+  // req.checkBody('displayName', 'required field').notEmpty();
+  // req.checkBody('email', 'required field').notEmpty();
 
   
   const err = req.validationErrors(true );    
@@ -42,9 +42,7 @@ function(req, res, next) {
 },
 // send the token
 function(req, res) {  
-  var obj = JSON.parse(req.body.data);
-    // var myobj = { displayName: obj.displayName, email: obj.email };
-    // var newUserInfo = new UserInfo(myobj);
+  var obj = JSON.parse(req.body.data);  
       
    
     newUserInfo.add().then(() => {     
@@ -52,13 +50,10 @@ function(req, res) {
         expiresIn: 86400 // expires in 24 hours        
       });
         
-      res.status(200).send({ auth: true, token: token });
+      //res.status(200).send({ auth: true, token: token });
+      res.json({ auth: true, token: token, status:200 });
 
-      // res.json({
-      //   status: 1,
-      //   userData: newUser       
-      // });     
-
+     
     }); 
 
    });  
