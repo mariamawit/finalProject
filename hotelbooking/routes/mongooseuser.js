@@ -22,7 +22,7 @@ UserSchema.statics.get = function(uid = null){
             })
         } else {
             User.find({
-                'userID': uid
+                '_id': uid
             }, function (err, data) {
                 if (err) rej(err)
                 res(data)
@@ -45,9 +45,9 @@ UserSchema.methods.add = function () {
                     status: 0
                 })
             } else {
-                console.log("user Added Successfully !");
+                
                 resolve({
-                    message: "New User Added",
+                    message: "Added",
                     status: 1
                 })
             }

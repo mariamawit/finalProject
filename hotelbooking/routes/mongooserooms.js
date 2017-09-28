@@ -5,7 +5,7 @@ mongoose.Promise = Promise;
 
 mongoose.connect("mongodb://root:123456@ds149844.mlab.com:49844/hotelbooking", {useMongoClient: true});
 
-var CommentSchema = new mongoose.Schema({
+var RoomsSchema = new mongoose.Schema({
    
   roomType: String,
   price:  Number,
@@ -13,7 +13,7 @@ var CommentSchema = new mongoose.Schema({
 
 });
 
-CommentSchema.statics.get = function(id){
+RoomsSchema.statics.get = function(id = null){
     
     return new Promise((res, rej) => {
         if (id === null) {
@@ -32,7 +32,7 @@ CommentSchema.statics.get = function(id){
     })
 }
 
-CommentSchema.methods.add = function () { 
+RoomsSchema.methods.add = function () { 
    
     return new Promise((resolve, reject) => {
 
@@ -45,9 +45,9 @@ CommentSchema.methods.add = function () {
                     status: 0
                 })
             } else {
-                console.log("user Added Successfully !");
+                
                 resolve({
-                    message: "New User Added",
+                    message: "Added",
                     status: 1
                 })
             }
@@ -55,13 +55,8 @@ CommentSchema.methods.add = function () {
     })
 }
 
-// CommentSchema.statics.findBytype = function (type, cb) {
-//     this.find({ 
-//         roomtype: type,
-// allocate: false
-//     }, cb);
-// }
 
-var Rooms = mongoose.model('rooms', CommentSchema);
+
+var Rooms = mongoose.model('rooms', RoomsSchema);
 
 module.exports = Rooms;

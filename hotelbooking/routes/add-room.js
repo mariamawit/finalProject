@@ -66,7 +66,7 @@ function(req, res) {
 
 router.get('/', function(req, res, next) {  
                
-        res.render('booking', { result: null, error:null })        
+        res.render({ result: null, error:null })        
     });   
   
   module.exports = router;

@@ -17,11 +17,10 @@ var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
 
 
-//var auth = require('./auth/AuthController');
 
 var router = express.Router();
 
-//var csrfProtection = csrf({ cookie: true });
+
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 router.post('/', urlencodedParser, 
@@ -33,7 +32,7 @@ function(req, res, next) {
   
   const err = req.validationErrors(true );    
   if(err){
-    //req.session.csrfToken = req.csrfToken();
+  
     res.render('login', {result: "null", error:"All input fields are Required!" });
   }
   else{  
@@ -41,11 +40,11 @@ function(req, res, next) {
   }
 
 },
-// save to db and redirect
+// send the token
 function(req, res) {  
-
-    var myobj = { displayName: req.body.displayName, email: req.body.email };
-    var newUserInfo = new UserInfo(myobj);
+  var obj = JSON.parse(req.body.data);
+    // var myobj = { displayName: obj.displayName, email: obj.email };
+    // var newUserInfo = new UserInfo(myobj);
       
    
     newUserInfo.add().then(() => {     
@@ -55,10 +54,10 @@ function(req, res) {
         
       res.status(200).send({ auth: true, token: token });
 
-      res.json({
-        status: 1,
-        userData: newUser       
-      });     
+      // res.json({
+      //   status: 1,
+      //   userData: newUser       
+      // });     
 
     }); 
 

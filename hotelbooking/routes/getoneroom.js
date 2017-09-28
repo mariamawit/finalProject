@@ -10,8 +10,7 @@
         User.get(id).then((data) => {  
             res.json({
               status: 1,
-              userData: data  
-              
+              userData: data   
               
             }); 
           });   

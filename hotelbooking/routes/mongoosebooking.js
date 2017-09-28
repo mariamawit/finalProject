@@ -5,7 +5,7 @@ mongoose.Promise = Promise;
 
 mongoose.connect("mongodb://root:123456@ds149844.mlab.com:49844/hotelbooking", {useMongoClient: true});
 
-var CommentSchema = new mongoose.Schema({
+var BookingSchema = new mongoose.Schema({
    
     userid: String,
     roomid: String,
@@ -15,7 +15,7 @@ var CommentSchema = new mongoose.Schema({
 
 });
 
-CommentSchema.statics.get = function(uid = null){
+BookingSchema.statics.get = function(uid = null){
     
     return new Promise((res, rej) => {
         if (uid === null) {
@@ -25,7 +25,7 @@ CommentSchema.statics.get = function(uid = null){
             })
         } else {
             Rooms.find({
-                'userID': uid
+                '_id': uid
             }, function (err, data) {
                 if (err) rej(err)
                 res(data)
@@ -34,7 +34,7 @@ CommentSchema.statics.get = function(uid = null){
     })
 }
 
-CommentSchema.methods.add = function () { 
+BookingSchema.methods.add = function () { 
    
     return new Promise((resolve, reject) => {
 
@@ -47,9 +47,9 @@ CommentSchema.methods.add = function () {
                     status: 0
                 })
             } else {
-                console.log("user Added Successfully !");
+                
                 resolve({
-                    message: "New User Added",
+                    message: " Added",
                     status: 1
                 })
             }
@@ -58,7 +58,7 @@ CommentSchema.methods.add = function () {
     })
 }
 
-CommentSchema.methods.checkRoomAvailable = function () {
+BookingSchema.methods.checkRoomAvailable = function () {
     return new Promise((resolve, reject) => {
         console.log("checking room availability");
         Reservation.find({
@@ -78,6 +78,6 @@ CommentSchema.methods.checkRoomAvailable = function () {
     });
 }
 
-var Reservation = mongoose.model('reservation', CommentSchema);
+var Reservation = mongoose.model('reservation', BookingSchema);
 
 module.exports = Reservation;
