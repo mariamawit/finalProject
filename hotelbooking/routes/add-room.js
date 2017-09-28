@@ -44,21 +44,16 @@ router.post('/', urlencodedParser,
 // },
 // save to db and redirect
 function(req, res) {  
+    var obj = JSON.parse(req.body.data);
+    var myobj = { roomType: obj.roomType, price: obj.price, imageUrl: obj.imageUrl };
+    var newRoom = new Rooms(myobj);
 
-    var myobj = { type: req.body.type, price: req.body.price, imageUrl: "picture" };
-    var newUser = new Rooms(myobj);
-      
    
-    newUser.add().then(() => {     
-      var token = jwt.sign({ id: newUser._id }, "my secret", {        
-        expiresIn: 86400 // expires in 24 hours        
-      });
-        
-      res.status(200).send({ auth: true, token: token });
-
+    newRoom.add().then(() => {     
+      
       res.json({
         status: 1,
-        userData: newUser       
+        userData: newRoom       
       });     
 
     }); 

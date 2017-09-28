@@ -4,8 +4,9 @@ var ObjectId = require('mongodb').ObjectId;
 var bodyParser = require('body-parser');
 var csrf = require('csurf');
 var path = require('path');
-var User = require('./mongooserooms');
+var Rooms = require('./mongooserooms');
 var UserInfo = require('./mongooseuser');
+var Reservation = require('./mongoosebooking');
 
 
 var router = express.Router();
@@ -26,59 +27,54 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 router.post('/', urlencodedParser, 
 // validate form
-function(req, res, next) {
-  req.checkBody('type', 'required field').notEmpty();
-  req.checkBody('price', 'required field').notEmpty();
-  req.checkBody('imageUrl', 'required field').notEmpty(); 
+// function(req, res, next) {
+//   req.checkBody('userid', 'required field').notEmpty();
+//   req.checkBody('roomid', 'required field').notEmpty();
+//   req.checkBody('datein', 'required field').notEmpty(); 
+//   req.checkBody('dateout', 'required field').notEmpty(); 
   
-  const err = req.validationErrors(true );    
-  if(err){
-    //req.session.csrfToken = req.csrfToken();
-    res.render('booking', {result: "null", error:"All input fields are Required!" });
-  }
-  else{  
+//   const err = req.validationErrors(true );    
+//   if(err){
+//     //req.session.csrfToken = req.csrfToken();
+//     res.json({result: "null", error:"All input fields are Required!" });
+//   }
+//   else{  
+//     return next();
+//   }
 
-    return next();
-  }
-
-},
+// },
 // save to db and redirect
 function(req, res) {  
+    var obj = JSON.parse(req.body.data);
+    console.log(req.body);
+    var myobj = new Reservation({ 
+      userid: obj.userid, 
+      roomid: obj.roomid, 
+      datein: obj.datein, 
+      dateout: obj.dateout 
+    });
 
-    var myobj = { type: req.body.type, price: req.body.price, imageUrl: req.body.imageUrl };
-    var newUser = new User(myobj);
+    myobj.checkRoomAvailable().then(
+      (data) =>{
+        if(data.available){
+          res.json({available: true});
+          myobj.add().then(() => {             
+                  res.json({
+                    status: 1,
+                    myobj: newUser       
+                  });     
+            
+                }); 
+         
+        }else{
+          //not available
+          res.json({available: false});
+          
+        }
+      }
+    ).catch((error)=> console.log(error));
       
-   
-    newUser.add().then(() => {     
-      // var token = jwt.sign({ id: newUser._id }, "my secret", {        
-      //   expiresIn: 86400 // expires in 24 hours        
-      // });
-        
-      // res.status(200).send({ auth: true, token: token });
-
-      res.json({
-        status: 1,
-        userData: newUser       
-      });     
-
-    }); 
-
-
-    //second add
-    var newUserInfo = new UserInfo(myobj);
-    newUserInfo.add().then(() => {     
-      var token = jwt.sign({ id: newUser._id }, "my secret", {        
-        expiresIn: 86400 // expires in 24 hours        
-      });
-        
-      res.status(200).send({ auth: true, token: token });
-
-      res.json({
-        status: 1,
-        userData: newUser       
-      });     
-
-    })  
+       
 
    });  
 
@@ -86,7 +82,7 @@ function(req, res) {
 
 router.get('/', function(req, res, next) {  
                
-        res.render('booking', { result: null, error:null })        
+        res.json({ result: null, error:null })        
     });   
   
   module.exports = router;

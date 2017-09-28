@@ -32,13 +32,11 @@ UserSchema.statics.get = function(uid = null){
 }
 
 UserSchema.methods.add = function () { 
-    // console.log('1');   
-    // console.log(this);
+    
     return new Promise((resolve, reject) => {
 
         newUser = this;
-        // console.log('2');
-        // console.log(newUser);
+        
 
         newUser.save(function (err) {
             if (err) {

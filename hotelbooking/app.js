@@ -10,7 +10,7 @@ var mongo = require('mongoskin');
 var cors = require('cors');
 
 var index = require('./routes/index');
-var getdata = require('./routes/getdata');
+var getrooms = require('./routes/getrooms');
 var booking = require('./routes/booking');
 var addroom = require('./routes/add-room');
 var mongoose = require('mongoose');
@@ -43,7 +43,7 @@ app.use(cors())
 
 
 //app.use('/', index);
-app.use('/getdata', getdata);
+app.use('/getrooms', getrooms);
 app.use('/booking', booking);
 app.use('/add-room', addroom);
 

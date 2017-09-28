@@ -7,10 +7,12 @@ mongoose.connect("mongodb://root:123456@ds149844.mlab.com:49844/hotelbooking", {
 
 var CommentSchema = new mongoose.Schema({
    
-  roomType: String,
-  price:  Number,
-  imageUrl:  String
+    userid: String,
+    roomid: String,
+    datein: Date,
+    dateout: Date
 
+//   post: { type: mongoose.Schema.Types.ObjectId, ref: 'Post' }
 });
 
 CommentSchema.statics.get = function(uid = null){
@@ -37,7 +39,7 @@ CommentSchema.methods.add = function () {
     return new Promise((resolve, reject) => {
 
         newUser = this;
-        
+       
         newUser.save(function (err) {
             if (err) {
                 reject({
@@ -51,17 +53,31 @@ CommentSchema.methods.add = function () {
                     status: 1
                 })
             }
+
         })
     })
 }
 
-CommentSchema.statics.findBytype = function (type, cb) {
-    this.find({ 
-        roomtype: type,
-allocate: false
-    }, cb);
+CommentSchema.methods.checkRoomAvailable = function () {
+    return new Promise((resolve, reject) => {
+        console.log("checking room availability");
+        Reservation.find({
+            "dateout": {"$lt": this.datein}, 
+            "datein": {"$gt": this.dateout},
+            "roomid": this.roomid
+        }, (error,data)=>{
+            if(error) throw error;
+            //get the result if there is existing records in the database,meaning room already taken
+            console.log(data);
+            if(data.length > 0){
+                reject({available: false});
+            }else{
+                resolve({available: true});
+            }
+        });
+    });
 }
 
-var Rooms = mongoose.model('rooms', CommentSchema);
+var Reservation = mongoose.model('reservation', CommentSchema);
 
-module.exports = Rooms;
+module.exports = Reservation;
