@@ -62,9 +62,9 @@ BookingSchema.methods.checkRoomAvailable = function () {
     return new Promise((resolve, reject) => {
         console.log("checking room availability");
         Reservation.find({
-            "dateout": {"$lt": this.datein}, 
-            "datein": {"$gt": this.dateout},
-            "roomid": this.roomid
+            "dateout": {"$lt": this.dateout}, 
+            "datein": {"$gt": this.datein},
+            "roomid": this.roomidnot
         }, (error,data)=>{
             if(error) throw error;
             //get the result if there is existing records in the database,meaning room already taken
