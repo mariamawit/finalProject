@@ -13,6 +13,7 @@ var index = require('./routes/index');
 var getrooms = require('./routes/getrooms');
 var booking = require('./routes/booking');
 var addroom = require('./routes/add-room');
+var getoneroom = require('./routes/getoneroom');
 var mongoose = require('mongoose');
 
 
@@ -42,10 +43,12 @@ app.use(function(req, res, next){
 app.use(cors())
 
 
-//app.use('/', index);
+app.use('/', index);
+app.use('/getoneroom', getoneroom);
 app.use('/getrooms', getrooms);
 app.use('/booking', booking);
 app.use('/add-room', addroom);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -13,17 +13,17 @@ var CommentSchema = new mongoose.Schema({
 
 });
 
-CommentSchema.statics.get = function(uid = null){
+CommentSchema.statics.get = function(id){
     
     return new Promise((res, rej) => {
-        if (uid === null) {
+        if (id === null) {
             Rooms.find({}, function (err, data) {
                 if (err) rej(err)
                 res(data)
             })
         } else {
-            Rooms.find({
-                'userID': uid
+            Rooms.findOne({
+                '_id': id
             }, function (err, data) {
                 if (err) rej(err)
                 res(data)
@@ -55,12 +55,12 @@ CommentSchema.methods.add = function () {
     })
 }
 
-CommentSchema.statics.findBytype = function (type, cb) {
-    this.find({ 
-        roomtype: type,
-allocate: false
-    }, cb);
-}
+// CommentSchema.statics.findBytype = function (type, cb) {
+//     this.find({ 
+//         roomtype: type,
+// allocate: false
+//     }, cb);
+// }
 
 var Rooms = mongoose.model('rooms', CommentSchema);
 

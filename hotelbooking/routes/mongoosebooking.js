@@ -12,7 +12,7 @@ var CommentSchema = new mongoose.Schema({
     datein: Date,
     dateout: Date
 
-//   post: { type: mongoose.Schema.Types.ObjectId, ref: 'Post' }
+
 });
 
 CommentSchema.statics.get = function(uid = null){
