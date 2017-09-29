@@ -1,0 +1,10 @@
+<div
+  *ngFor="let room of rooms$"
+  class="card" style="width: 20rem;">
+  <img class="card-img-top" src="{{ room.imageUrl }}" alt="Card image cap">
+  <div class="card-body">
+    <h4 class="card-title">{{room.roomType}}</h4>
+    <p class="card-text">{{room.price | currency:'USD':true}}</p>
+    <a href="#" class="btn btn-primary">Edit</a>
+  </div>
+</div>

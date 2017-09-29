@@ -28,9 +28,7 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false });
 router.post('/', urlencodedParser, 
 // validate form
 function(req, res, next) {
-  // req.checkBody('displayName', 'required field').notEmpty();
-  // req.checkBody('email', 'required field').notEmpty();
-
+  
   
   const err = req.validationErrors(true );    
   if(err){
@@ -44,9 +42,11 @@ function(req, res, next) {
 },
 // send the token
 function(req, res) {  
-  var obj = JSON.parse(req.body.data);  
+  //var obj = JSON.parse(req.body.data);  
       
-   
+  var myobj = { username: "obj.roomType", email: "imageUrl: obj.imageUrl" };
+  var UserInfo = new newUserInfo(myobj); 
+
     newUserInfo.add().then(() => {     
       var token = jwt.sign({ id: newUser._id }, "my secret", {        
         expiresIn: 86400 // expires in 24 hours        
@@ -54,6 +54,7 @@ function(req, res) {
         
       //res.status(200).send({ auth: true, token: token });
       res.json({ auth: true, token: token, status:200 });
+      res.send('booking', { token: token });
 
      
     }); 

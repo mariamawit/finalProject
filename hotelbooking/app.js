@@ -14,6 +14,7 @@ var getrooms = require('./routes/getrooms');
 var booking = require('./routes/booking');
 var addroom = require('./routes/add-room');
 var getoneroom = require('./routes/getoneroom');
+var auth = require('./routes/auth');
 var mongoose = require('mongoose');
 
 
@@ -48,6 +49,7 @@ app.use('/getoneroom', getoneroom);
 app.use('/getrooms', getrooms);
 app.use('/booking', booking);
 app.use('/add-room', addroom);
+app.use('/auth', auth);
 
 
 // catch 404 and forward to error handler

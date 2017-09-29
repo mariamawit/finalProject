@@ -1,0 +1,70 @@
+<div class="row">
+
+  <div class="col-sm-6">
+    <div class="card">
+
+      <div class="card-header">
+        <h1 class="text-center">Add New Room</h1>
+      </div>
+      <div class="card-body">
+        <form #f="ngForm" (ngSubmit)="addNewRoom()">
+
+          <div class="form-group">
+            <label for="roomType" class="col-form-label">Type</label>
+            <select [(ngModel)]="room.roomType" name="roomType" #roomType="ngModel"
+                    required id="roomType" class="form-control">
+              <option value=""></option>
+              <option value="ONE_BED_ROOM">One Bed Room</option>
+              <option value="TWO_BED_ROOM">Two Bed Rooms</option>
+              <option value="THREE_BED_ROOM">Three Bed Rooms</option>
+            </select>
+            <div *ngIf="roomType.touched && roomType.invalid" class="alert alert-danger">
+              Type is required
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="price" class="col-form-label">Price</label>
+            <div class="input-group">
+              <span class="input-group-addon">$</span>
+              <input [(ngModel)]="room.price" name="price" #price="ngModel" required [min]="0"
+                     id="price" type="number" class="form-control" placeholder="Price">
+            </div>
+            <div *ngIf="price.touched && price.invalid" class="alert alert-danger">
+              <div *ngIf="price.errors.required">Price is required</div>
+              <div *ngIf="price.errors.min">Price has to be 0 or higher</div>
+            </div>
+
+          </div>
+
+          <div class="form-group">
+            <label>Image URL </label>
+            <input [(ngModel)]="room.imageUrl" name="imageUrl" #imageUrl="ngModel" required url
+                   id="imageUrl" class="form-control" type="text">
+            <div *ngIf="imageUrl.touched && imageUrl.invalid" class="alert alert-danger">
+              <div *ngIf="imageUrl.errors.required">Image Url is required</div>
+              <div *ngIf="imageUrl.errors.url">Enter a valid url</div>
+            </div>
+          </div>
+
+          <button (click)="addNewRoom()" class="btn btn-primary"> Save</button>
+
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-6">
+    <div class="card" style="width: 30rem;">
+      <img class="card-img-top" [src]="imageUrl.value">
+      <div class="card-body">
+        <h4 class="card-title">{{roomType.value}}</h4>
+        <p class="card-text">{{price.value | currency:'USD':true}}</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+

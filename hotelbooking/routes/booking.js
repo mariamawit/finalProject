@@ -69,7 +69,7 @@ function(req, res) {
 
 router.get('/', function(req, res, next) {  
                
-        res.json({ result: null, error:null })        
+        res.render('booking', { result: null, error:null })        
     });   
   
   module.exports = router;
